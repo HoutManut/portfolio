@@ -989,6 +989,9 @@ export function createCanvas(
   /* LOCAL PATCH: measured content height, "flow" only. */
   let flowHeight = $state(0);
   const contentHeight = $derived(fit === "flow" ? "auto" : "100%");
+  const contentStyle = $derived(
+    `position: relative; width: 100%; max-width: 100%; min-width: 0; height: ${contentHeight}; overflow: ${fit === "flow" ? "visible" : "auto"};`,
+  );
 
   $effect(() => {
     if (fit !== "flow" || !contentEl) return;
@@ -1060,7 +1063,7 @@ export function createCanvas(
     {#if native}
       <div
         bind:this={contentEl}
-        style="position: relative; width: 100%; height: {contentHeight}; overflow: auto;"
+        style={contentStyle}
       >
         {@render children?.()}
       </div>
@@ -1069,7 +1072,7 @@ export function createCanvas(
   {#if !native}
     <div
       bind:this={contentEl}
-      style="position: relative; width: 100%; height: {contentHeight}; overflow: auto;"
+      style={contentStyle}
     >
       {@render children?.()}
     </div>

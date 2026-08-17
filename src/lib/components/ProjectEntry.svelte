@@ -479,6 +479,8 @@
 
 	.body {
 		display: grid;
+		min-width: 0;
+		width: 100%;
 		gap: var(--space-5);
 		/* The plate column is sized here, not by its content: the Canvas pass takes
 		   the plate out of flow, so nothing is left inside to measure. */
@@ -579,7 +581,7 @@
 
 		.body {
 			gap: var(--space-4);
-			grid-template-columns: 1fr;
+			grid-template-columns: minmax(0, 1fr);
 		}
 
 		.caption {

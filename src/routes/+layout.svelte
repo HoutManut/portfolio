@@ -611,6 +611,8 @@
 			justify-content: start;
 			padding-top: 0;
 			width: 100%;
+			/* Keep the second masthead row when its children are position: fixed. */
+			min-height: 1.5rem;
 		}
 
 		.view-links,

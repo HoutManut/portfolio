@@ -372,6 +372,14 @@ h1 {
 
 .prose {
 	max-width: var(--measure);
+	min-width: 0;
+	width: 100%;
+}
+
+.plate {
+	max-width: 100%;
+	min-width: 0;
+	width: 100%;
 }
 
 /*
@@ -400,6 +408,7 @@ h1 {
 	 * column is the full sheet, and an unclamped wrapper would paint the pass out
 	 * past the paper on both sides. */
 	max-width: var(--plate-width);
+	min-width: 0;
 	width: 100%;
 }
 
@@ -439,12 +448,16 @@ h1 {
 
 .prose figure {
 	margin: var(--space-4) 0;
+	max-width: 100%;
+	min-width: 0;
+	width: 100%;
 }
 
 .prose figure img {
 	display: block;
 	height: auto;
 	max-width: 100%;
+	min-width: 0;
 	width: auto;
 }
 
