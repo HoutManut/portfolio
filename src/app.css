@@ -1,0 +1,572 @@
+/*
+ * THE SPECIMEN SHEET — the site's visual world. See DESIGN.md.
+ *
+ * One variable family (Recursive) sets the display type, the prose, the UI
+ * legends and the code, and three live axes remap the whole document: DETAIL
+ * (how much of each project is exposed), MONO (proportional → monospace) and
+ * CASL (Recursive's casual axis). All three are registered custom properties,
+ * so preset buttons interpolate rather than jump; prefers-reduced-motion turns
+ * that back into a snap between named instances, the specimen's own rule.
+ */
+
+/* MathML alignment CSS, generated from the pinned Typst by npm run content. */
+@import './lib/generated/typst-math.css';
+
+/* -------------------------------------------------------------------------- */
+/* the face                                                                   */
+/* -------------------------------------------------------------------------- */
+/*
+ * Self-hosted from static/fonts (OFL, see Recursive-OFL.txt) — the site must
+ * build and run with no external service. Only the two latin subsets are
+ * vendored; every axis lives in these files: MONO, CASL, wght, slnt, CRSV.
+ */
+
+@font-face {
+	font-family: 'Recursive';
+	font-style: oblique 0deg 15deg;
+	font-weight: 300 1000;
+	font-display: swap;
+	src: url('/fonts/recursive-latin-full.woff2') format('woff2-variations');
+	unicode-range:
+		U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329,
+		U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+
+@font-face {
+	font-family: 'Recursive';
+	font-style: oblique 0deg 15deg;
+	font-weight: 300 1000;
+	font-display: swap;
+	src: url('/fonts/recursive-latin-ext-full.woff2') format('woff2-variations');
+	unicode-range:
+		U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329,
+		U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F,
+		U+A720-A7FF;
+}
+
+/*
+ * Fallback faces for the two locales Recursive has no glyphs for. Subsetted to
+ * exactly the glyphs used in messages/ja.json and messages/km.json (via
+ * Google Fonts' text= subsetting, then repacked to woff2), so an English
+ * visitor downloads nothing extra — unicode-range means the browser never
+ * fetches a face whose range doesn't intersect the rendered text — and a ja/km
+ * visitor pays for a few KB, not the multi-megabyte full CJK block. One static
+ * weight only: the DETAIL axis's weight animation doesn't reach these runs.
+ * Regenerate both if the message files pick up characters outside this set.
+ */
+@font-face {
+	font-family: 'Noto Sans JP';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/noto-sans-jp-subset.woff2') format('woff2');
+	unicode-range: U+3000-30FF, U+3400-4DBF, U+4E00-9FFF, U+F900-FAFF, U+FF00-FFEF;
+}
+
+@font-face {
+	font-family: 'Noto Sans Khmer';
+	font-style: normal;
+	font-weight: 400;
+	font-display: swap;
+	src: url('/fonts/noto-sans-khmer-subset.woff2') format('woff2');
+	unicode-range: U+1780-17FF, U+19E0-19FF;
+}
+
+/* -------------------------------------------------------------------------- */
+/* the axes                                                                   */
+/* -------------------------------------------------------------------------- */
+/*
+ * Registered so they animate. An unregistered custom property is a string to
+ * the animation engine and would snap on every preset press.
+ */
+
+/*
+ * 650 is REVIEW, the default instance. It is set where the stack and status
+ * lines are fully open: "what is he actually good with" is the first thing this
+ * audience scans for, and it may not depend on finding a slider.
+ */
+@property --detail {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 650;
+}
+
+/*
+ * 0.2, not 0. Recursive's MONO axis is continuous, and a fifth of the way along
+ * it the prose keeps proportional rhythm while the letterforms pick up the
+ * squared terminals the legends and numerals are already set in. The document
+ * reads as one specimen rather than as prose with monospaced labels bolted on.
+ */
+@property --mono {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 0.2;
+}
+
+@property --casl {
+	syntax: '<number>';
+	inherits: true;
+	initial-value: 0;
+}
+
+:root {
+	color-scheme: dark;
+
+	/*
+	 * A global opt-in, and it belongs beside the axes because it is the same idea:
+	 * make a value the engine treats as a keyword interpolate instead of snap. It
+	 * is what lets a project body open over 220ms from block-size 0 to auto (see
+	 * ProjectEntry). Chromium-only — elsewhere the body snaps, exactly as it did
+	 * before, which is the only fallback this needs.
+	 */
+	interpolate-size: allow-keywords;
+
+	/* The drench. A specimen sheet printed on one saturated field. */
+	--field: #1c22c8;
+	--paper: #f1efe6;
+	--acid: #d6f03a;
+	--ink: #12131a;
+	--muted: #a6acee;
+	--rule: #5a5fd8;
+	--rule-strong: #7b80e4;
+
+	/* Syntax, tuned for the paper plate — code never sits on the field. */
+	--tok-keyword: #7a1fa2;
+	--tok-type: #0b4f9e;
+	--tok-function: #5b21b6;
+	--tok-string: #0a6140;
+	/* 5.33:1 on the code-block ground; the lighter grey a comment wants fails AA. */
+	--tok-comment: #565b64;
+	--tok-constant: #0b4f9e;
+	--tok-variable: #8a3a06;
+	--tok-punct: #4d525c;
+	--tok-tag: #0a6140;
+
+	--space-1: 0.25rem;
+	--space-2: 0.5rem;
+	--space-3: 1rem;
+	--space-4: 1.5rem;
+	--space-5: 2.5rem;
+	--space-6: 4rem;
+	--space-7: 6rem;
+
+	--text-micro: 0.6875rem;
+	--text-xs: 0.75rem;
+	--text-sm: 0.8125rem;
+	--text-base: 1.0625rem;
+	--text-lg: 1.375rem;
+	--text-xl: 2rem;
+
+	--measure: 68ch;
+	/* The margin a text-setting page holds around its measure. Marginalia and the
+	 * project caption align their first baseline to it, and the Canvas pass sizes
+	 * itself to measure + two of them, so it is a variable rather than three
+	 * copies of the same clamp. */
+	--plate-pad: clamp(1.5rem, 4vw, 3.25rem);
+	--plate-width: calc(var(--measure) + 2 * var(--plate-pad));
+	--gutter: clamp(1.25rem, 4vw, 3.5rem);
+	--sheet: 78rem;
+
+	--font: 'Recursive', 'Noto Sans JP', 'Noto Sans Khmer', ui-sans-serif, system-ui, sans-serif;
+
+	/*
+	 * The Legend Rule (see DESIGN.md): every piece of UI apparatus tracks 0.1–
+	 * 0.16em and sets uppercase. Both are Latin-only moves — text-transform is a
+	 * no-op without case, and positive tracking actively breaks Khmer glyph
+	 * clusters (subscript consonants and vowel marks need to sit tight against
+	 * their base). :lang(ja)/:lang(km) below zero these out; every consumer
+	 * reads through the variable rather than the literal value so that one
+	 * override reaches every legend, badge and button on the sheet.
+	 */
+	--tracking-legend: 0.14em;
+	--case-legend: uppercase;
+
+	/* Derived once, read everywhere: the 0–1 form of the DETAIL axis. */
+	--d: calc(var(--detail) / 1000);
+	/* Continuous reveal thresholds — interpolation, not a branch. */
+	--show-summary: clamp(0, calc((var(--detail) - 180) / 320), 1);
+	--show-facts: clamp(0, calc((var(--detail) - 480) / 170), 1);
+
+	--ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+	accent-color: var(--acid);
+}
+
+/* See --tracking-legend / --case-legend above. */
+:lang(ja),
+:lang(km) {
+	--tracking-legend: normal;
+	--case-legend: none;
+}
+
+/* -------------------------------------------------------------------------- */
+/* base                                                                       */
+/* -------------------------------------------------------------------------- */
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	-webkit-text-size-adjust: 100%;
+	background: var(--field);
+	scrollbar-color: var(--rule-strong) var(--field);
+	/*
+	 * For the marks in the CV margin, the skip link and a hash-linked project: a
+	 * jump between two places on one sheet reads as a page change, and travelling
+	 * the distance is what says it was not. The reduced-motion block at the foot of
+	 * this file already carries the `auto !important` that turns it back off.
+	 */
+	scroll-behavior: smooth;
+}
+
+/*
+ * The field is painted by Ground.svelte, not here: it is the content of the
+ * asciified layer at z-index 0, and an opaque body background would bury it.
+ * html keeps the colour, which propagates to the canvas so overscroll never
+ * reveals another ground and the no-JS / reduced-motion page is unchanged.
+ */
+body {
+	color: var(--paper);
+	font-family: var(--font);
+	font-size: var(--text-base);
+	font-variation-settings:
+		'MONO' var(--mono),
+		'CASL' var(--casl);
+	line-height: 1.5;
+	margin: 0;
+}
+
+/*
+ * Dragging an axis must track the finger, so the axes are untransitioned by
+ * default; pressing a named instance (SKIM / REVIEW / FULL) adds .tween for the
+ * duration of the interpolation. Under prefers-reduced-motion the global rule
+ * below collapses that to a snap between instances — the specimen's own rule.
+ */
+html.tween {
+	transition:
+		--detail 420ms var(--ease),
+		--mono 420ms var(--ease),
+		--casl 420ms var(--ease);
+}
+
+/* The rail is a JavaScript control; without it the document keeps its default instance. */
+html:not(.js) .js-only {
+	display: none;
+}
+
+::selection {
+	background: var(--acid);
+	color: var(--ink);
+}
+
+a {
+	color: inherit;
+	text-decoration-color: var(--rule-strong);
+	text-decoration-thickness: 1px;
+	text-underline-offset: 0.22em;
+	transition: text-decoration-color 140ms var(--ease);
+}
+
+a:hover {
+	text-decoration-color: var(--acid);
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible,
+input:focus-visible {
+	outline: 2px solid var(--acid);
+	outline-offset: 3px;
+}
+
+h1,
+h2,
+h3 {
+	line-height: 1.08;
+	text-wrap: balance;
+}
+
+h1 {
+	font-size: var(--text-xl);
+	font-variation-settings:
+		'MONO' var(--mono),
+		'CASL' var(--casl),
+		'wght' 700;
+	letter-spacing: -0.02em;
+	margin: 0 0 var(--space-4);
+}
+
+/* -------------------------------------------------------------------------- */
+/* specimen apparatus — the legends, readouts and rules the sheet is built of  */
+/* -------------------------------------------------------------------------- */
+
+.legend {
+	color: var(--muted);
+	display: block;
+	font-size: var(--text-micro);
+	font-variation-settings:
+		'MONO' 1,
+		'CASL' 0,
+		'wght' 500;
+	letter-spacing: var(--tracking-legend);
+	line-height: 1.4;
+	text-transform: var(--case-legend);
+}
+
+.num {
+	font-variant-numeric: tabular-nums;
+	font-variation-settings:
+		'MONO' 1,
+		'CASL' 0,
+		'wght' 500;
+}
+
+.rule {
+	background: var(--rule);
+	border: 0;
+	height: 1px;
+	margin: 0;
+}
+
+/* -------------------------------------------------------------------------- */
+/* the paper plate — every reading field in the sheet                         */
+/* -------------------------------------------------------------------------- */
+/*
+ * A specimen book alternates showing-pages against text-setting pages. Long
+ * prose, code and the CV are set on paper so dense reading never happens on a
+ * saturated ground; the field frames it.
+ */
+
+.plate {
+	background: var(--paper);
+	color: var(--ink);
+	/* A text page is as wide as its measure, never as wide as the sheet. */
+	max-width: var(--plate-width);
+	padding: var(--plate-pad);
+}
+
+.plate a {
+	text-decoration-color: color-mix(in srgb, var(--ink) 35%, transparent);
+}
+
+.plate a:hover {
+	text-decoration-color: var(--field);
+}
+
+.plate ::selection {
+	background: var(--field);
+	color: var(--paper);
+}
+
+.plate a:focus-visible {
+	outline-color: var(--field);
+}
+
+/* -------------------------------------------------------------------------- */
+/* prose — the container for Typst-compiled bodies                            */
+/* -------------------------------------------------------------------------- */
+
+.prose {
+	max-width: var(--measure);
+}
+
+/*
+ * The Canvas pass wraps the whole plate — paper, margins and all — so the effect
+ * runs over the text-setting page rather than over a measure-wide panel floating
+ * inside it. Prose owns that nesting; the routes hand it a body and it sets the
+ * page.
+ *
+ * On the html-in-canvas path the plate moves inside `<canvas layoutsubtree>` at
+ * `position: absolute; inset: 0`, which takes it out of flow on both axes. The
+ * wrapper then contributes no width at all to its parent, so a track sized from
+ * its content collapses and the text wraps to nothing.
+ *
+ * A definite width here fixes that but breaks the other direction — the track
+ * takes it as max-content and overflows the sheet before the one-column
+ * breakpoint. So the width moves to the track instead: the `.body` grids ask for
+ * `minmax(0, --plate-width)`, which is definite at the top and free to shrink,
+ * and the wrapper simply fills it. Nothing is measured from the content, in
+ * either axis, which is the only arrangement that holds both ways.
+ *
+ * The vertical half of the same problem is handled inside Canvas itself, by the
+ * `fit="flow"` patch — see canvasui/README.md.
+ */
+.prose-fx {
+	/* Never wider than the page it is setting: below the one-column breakpoint the
+	 * column is the full sheet, and an unclamped wrapper would paint the pass out
+	 * past the paper on both sides. */
+	max-width: var(--plate-width);
+	width: 100%;
+}
+
+.prose > :first-child {
+	margin-top: 0;
+}
+
+/* Typst emits document headings as h2, so this is the in-content heading size. */
+.prose h2 {
+	font-size: var(--text-lg);
+	font-variation-settings:
+		'MONO' var(--mono),
+		'CASL' var(--casl),
+		'wght' 700;
+	letter-spacing: -0.015em;
+	margin: var(--space-5) 0 var(--space-2);
+}
+
+.prose h3 {
+	font-size: var(--text-base);
+	font-variation-settings:
+		'MONO' var(--mono),
+		'CASL' var(--casl),
+		'wght' 700;
+	margin: var(--space-4) 0 var(--space-2);
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+	margin: 0 0 var(--space-3);
+}
+
+.prose li + li {
+	margin-top: var(--space-1);
+}
+
+.prose figure {
+	margin: var(--space-4) 0;
+}
+
+.prose figure img {
+	display: block;
+	height: auto;
+	max-width: 100%;
+	width: auto;
+}
+
+.prose figcaption {
+	color: color-mix(in srgb, var(--ink) 62%, transparent);
+	font-size: var(--text-sm);
+}
+
+.prose code {
+	background: color-mix(in srgb, var(--field) 8%, transparent);
+	font-size: 0.9em;
+	font-variation-settings:
+		'MONO' 1,
+		'CASL' 0;
+	padding: 0.1em 0.3em;
+}
+
+.prose pre {
+	background: color-mix(in srgb, var(--field) 6%, transparent);
+	border-left: 1px solid var(--field);
+	margin: 0 0 var(--space-3);
+	overflow-x: auto;
+	padding: var(--space-3);
+}
+
+.prose pre code {
+	background: none;
+	padding: 0;
+}
+
+/* Emitted by content/typst/lib.typ → spread(); h(1fr) has no HTML equivalent. */
+.prose .spread {
+	display: flex;
+	gap: var(--space-3);
+	justify-content: space-between;
+}
+
+.prose .spread > :first-child {
+	flex: 1 1 auto;
+	min-width: 0;
+}
+
+.prose .spread > .spread-end {
+	flex: none;
+	white-space: nowrap;
+}
+
+/*
+ * A CV role line is "Title — Organisation" against a date range. Held side by
+ * side on a phone both halves wrap and the row reads as four fragments, so the
+ * date drops under the role instead.
+ */
+@media (max-width: 34rem) {
+	.prose .spread {
+		display: block;
+	}
+
+	.prose .spread > :last-child {
+		color: color-mix(in srgb, var(--ink) 62%, transparent);
+		display: block;
+		font-size: var(--text-sm);
+	}
+}
+
+.prose table {
+	border-collapse: collapse;
+	font-variant-numeric: tabular-nums;
+	width: 100%;
+}
+
+.prose th,
+.prose td {
+	border-bottom: 1px solid color-mix(in srgb, var(--ink) 15%, transparent);
+	padding: var(--space-2) var(--space-3) var(--space-2) 0;
+	text-align: left;
+}
+
+/* -------------------------------------------------------------------------- */
+/* syntax tokens                                                              */
+/* -------------------------------------------------------------------------- */
+/*
+ * Typst hardcodes syntax colours inline, which cannot follow a colour scheme.
+ * content/typst/theme.tmTheme paints each scope with a sentinel hex and
+ * scripts/build-content.ts rewrites those into these classes, so highlighting
+ * follows the tokens above. Keep the two lists in step.
+ */
+
+.tok-keyword {
+	color: var(--tok-keyword);
+}
+.tok-type {
+	color: var(--tok-type);
+}
+.tok-function {
+	color: var(--tok-function);
+}
+.tok-string {
+	color: var(--tok-string);
+}
+.tok-comment {
+	color: var(--tok-comment);
+	font-style: italic;
+}
+.tok-constant {
+	color: var(--tok-constant);
+}
+.tok-variable {
+	color: var(--tok-variable);
+}
+.tok-punct {
+	color: var(--tok-punct);
+}
+.tok-tag {
+	color: var(--tok-tag);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		scroll-behavior: auto !important;
+		transition-duration: 0.01ms !important;
+	}
+}

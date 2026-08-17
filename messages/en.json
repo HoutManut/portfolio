@@ -1,0 +1,63 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"navWork": "Work",
+	"navWriting": "Writing",
+	"navCv": "CV",
+	"navPrimaryAria": "Primary",
+	"skipToContent": "Skip to content",
+	"contactLegend": "Contact",
+	"proofMark": "Proof",
+	"proofBodyPre": "Seed content — see the replacement list in ",
+	"proofBodyPost": "",
+	"colophonSetPre": "Set in ",
+	"colophonSetMid": ", one variable family across display, prose, legends and code. Typeset from ",
+	"colophonSetPost": " sources to this page and to the PDF.",
+	"siteRole": "Software engineer",
+	"siteTagline": "Software engineer. The work is below.",
+	"localeSwitcherAria": "Language",
+
+	"pageTitleWork": "{name} — {role}",
+	"workHeading": "Selected work",
+	"workCountOne": "{n} entry",
+	"workCountOther": "{n} entries",
+
+	"writingMetaTitle": "Writing — {name}",
+	"writingMetaDescription": "Essays and notes by {name}.",
+	"writingHeading": "Writing",
+	"writingCountOne": "{n} piece",
+	"writingCountOther": "{n} pieces",
+	"writingEmpty": "Nothing published yet.",
+
+	"postMetaTitle": "{title} — {name}",
+	"marginaliaPublished": "Published",
+	"marginaliaTags": "Tags",
+	"writingAllWriting": "All writing",
+
+	"cvMetaTitle": "CV — {name}",
+	"cvMetaDescription": "Curriculum vitae for {name}.",
+	"cvUpdated": "Updated",
+	"cvSourceNotePre": "One ",
+	"cvSourceNotePost": ", compiled to this page and to the PDF.",
+	"cvDownloadPdf": "Download PDF",
+
+	"source": "Source",
+	"projectFigPending": "Fig. pending",
+	"projectFig": "Fig. {n}",
+	"projectStatus": "Status",
+	"projectYear": "Year",
+	"projectStack": "Stack",
+	"projectLiveSite": "Live site",
+	"projectSeedBadge": "Seed",
+
+	"marginaliaSectionsAria": "Sections",
+
+	"axisSpecimenAria": "Specimen axes",
+	"axisAxis": "Axis",
+	"axisAxesToggle": "Axes",
+	"axisDetail": "Detail",
+	"axisMono": "Mono",
+	"axisCasual": "Casual",
+	"axisDetailAria": "Detail — how much of each project is shown",
+	"axisRowAria": "{label} — {tag} axis"
+}

@@ -1,0 +1,42 @@
+{
+	"typstVersion": "0.15.0",
+	"manifest": {
+		"content/typst/lib.typ": "486d06b2d804aac5d50cc83ca2e43582d92cc63e68dbe34a36d249c58e15c2a1",
+		"content/typst/paged.typ": "3e8a6604154f7df83ea272bfc67b31d74fd6715b8ad54ecbdbf7f32eb09c7976",
+		"content/typst/theme.tmTheme": "b51d2ad6d39f64349ed69f1d7141b06b81f3e0d492ec7bf41a91404f3cf9bafd",
+		"content/typst/web.typ": "699e81e93c8b150404c5b11156a8f72896c190f77a9d9a406630c0001b0a6054",
+		"content/writing/authoring-in-typst.typ": "7a5ddd880c332b8c275e3bb3afd294fe04f41efb5a3b9a414fc3546661857d2b",
+		"content/writing/draft-example.typ": "392dbb1f6e7fa428a5e8116f5cba45cb727b0e5ceb7dd09a78c6b2cd62ad0bc0"
+	},
+	"entries": [
+		{
+			"meta": {
+				"slug": "authoring-in-typst",
+				"title": "Authoring this site in Typst",
+				"date": "2026-08-16",
+				"summary": "Why the posts and the CV on this site are .typ files, and what the HTML export actually gives you.",
+				"tags": [
+					"typst",
+					"tooling"
+				],
+				"draft": false
+			},
+			"html": "<p>Every post on this site, including this one, is a <code>.typ</code> file. So is the CV. “That’s a strange choice for a website. Typst is a typesetting language, not a web framework” is what you might be wondering — unless you don’t even know what Typst is. Hear me out.</p><p><a href=\"https://typst.app/\">Typst 0.15</a> can export HTML. It’s still gated behind <code>--features html</code> and the feature is explicitly incomplete, but it’s close enough to hand-written markup that I was comfortable letting it own the page’s CSS instead of fighting it.</p><h2 id=\"frontmatter\">Frontmatter</h2><p>Typst has no frontmatter convention, so I made one out of a <code>metadata</code> call and a label — <code>#meta((title: \"…\", date: \"2026-08-16\"))</code> at the top of every file, this one included. The build script reads it back out with <code>typst eval</code> and rejects the post if it doesn’t validate, which is the only thing standing between a typo in a date field and a broken build.</p><h2 id=\"what-does-not-survive\">What does not survive</h2><p>Laid-out material is dropped on the HTML target by default. Typst has no HTML equivalent for an absolutely-positioned rectangle or a hand-drawn diagram, so it just omits it. The fix is <code>#frame(...)</code>, which rasterizes the content to inline SVG before it hits the HTML exporter — that’s how every diagram on this site makes it into the page at all.</p><p>Math is the one exception that needs no workaround. It exports as native MathML, so equations like <math><msup><mi>𝑒</mi><mrow><mi>𝑖</mi><mi>𝜋</mi></mrow></msup><mo>+</mo><mn>1</mn><mo>=</mo><mn>0</mn></math> need no image and stay selectable text in the browser, not that I’ll ever use it though.</p><h2 id=\"here-s-the-neat-part\">Here’s the neat part</h2><p>The CV is one <code>.typ</code> file that compiles twice: once to the HTML they read on the page and the same one to a downloadable PDF. This means that two can no longer drift apart, since they’re built from a single source. Optionally, I can selectively only render a block of content from the HTML target and hides it in the PDF version, and vice-versa.</p>",
+			"headings": [
+				{
+					"id": "frontmatter",
+					"text": "Frontmatter"
+				},
+				{
+					"id": "what-does-not-survive",
+					"text": "What does not survive"
+				},
+				{
+					"id": "here-s-the-neat-part",
+					"text": "Here’s the neat part"
+				}
+			],
+			"locale": "en"
+		}
+	]
+}

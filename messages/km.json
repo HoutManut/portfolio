@@ -1,0 +1,63 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"navWork": "ស្នាដៃ",
+	"navWriting": "អត្ថបទ",
+	"navCv": "ប្រវត្តិរូបសង្ខេប",
+	"navPrimaryAria": "ការរុករកសំខាន់",
+	"skipToContent": "រំលងទៅមាតិកា",
+	"contactLegend": "ទំនាក់ទំនង",
+	"proofMark": "ច្បាប់ព្រាង",
+	"proofBodyPre": "",
+	"proofBodyPost": " ដែលមានបញ្ជីជំនួស។",
+	"colophonSetPre": "រៀបចំដោយពុម្ពអក្សរអថេរតែមួយគត់ គឺ ",
+	"colophonSetMid": " សម្រាប់ចំណងជើង អត្ថបទ សេចក្ដីពន្យល់ និងកូដ។ រៀបចំពីប្រភព ",
+	"colophonSetPost": " ដូចគ្នាទាំងសម្រាប់ទំព័រនេះ និងឯកសារ PDF។",
+	"siteRole": "វិស្វករសូហ្វវែរ",
+	"siteTagline": "វិស្វករសូហ្វវែរ។ ស្នាដៃមាននៅខាងក្រោម។",
+	"localeSwitcherAria": "ភាសា",
+
+	"pageTitleWork": "{name} — {role}",
+	"workHeading": "ស្នាដៃដែលបានជ្រើសរើស",
+	"workCountOne": "{n} ស្នាដៃ",
+	"workCountOther": "{n} ស្នាដៃ",
+
+	"writingMetaTitle": "អត្ថបទ — {name}",
+	"writingMetaDescription": "អត្ថបទ និងកំណត់ចំណាំដោយ {name}។",
+	"writingHeading": "អត្ថបទ",
+	"writingCountOne": "{n} អត្ថបទ",
+	"writingCountOther": "{n} អត្ថបទ",
+	"writingEmpty": "មិនទាន់មានការបោះពុម្ពផ្សាយនៅឡើយទេ។",
+
+	"postMetaTitle": "{title} — {name}",
+	"marginaliaPublished": "ថ្ងៃបោះពុម្ពផ្សាយ",
+	"marginaliaTags": "ស្លាក",
+	"writingAllWriting": "អត្ថបទទាំងអស់",
+
+	"cvMetaTitle": "ប្រវត្តិរូបសង្ខេប — {name}",
+	"cvMetaDescription": "ប្រវត្តិរូបសង្ខេបសម្រាប់ {name}។",
+	"cvUpdated": "ធ្វើបច្ចុប្បន្នភាព",
+	"cvSourceNotePre": "",
+	"cvSourceNotePost": " ជាប្រភពតែមួយ ត្រូវបានចងក្រងទៅជាទំព័រនេះ និងឯកសារ PDF។",
+	"cvDownloadPdf": "ទាញយក PDF (ភាសាអង់គ្លេស)",
+
+	"source": "ប្រភព",
+	"projectFigPending": "រូបភាពកំពុងរៀបចំ",
+	"projectFig": "រូបភាព {n}",
+	"projectStatus": "ស្ថានភាព",
+	"projectYear": "ឆ្នាំ",
+	"projectStack": "បច្ចេកវិទ្យា",
+	"projectLiveSite": "គេហទំព័រផ្សាយ",
+	"projectSeedBadge": "គំរូ",
+
+	"marginaliaSectionsAria": "ផ្នែក",
+
+	"axisSpecimenAria": "អ័ក្សគំរូ",
+	"axisAxis": "អ័ក្ស",
+	"axisAxesToggle": "អ័ក្សទាំងអស់",
+	"axisDetail": "លម្អិត",
+	"axisMono": "ម៉ូណូ",
+	"axisCasual": "ធម្មតា",
+	"axisDetailAria": "លម្អិត — កម្រិតបង្ហាញនៃគម្រោងនីមួយៗ",
+	"axisRowAria": "{label} — អ័ក្ស {tag}"
+}

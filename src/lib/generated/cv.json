@@ -1,0 +1,41 @@
+{
+	"typstVersion": "0.15.0",
+	"manifest": {
+		"content/cv.typ": "6bad9afcab2c557a42033b89200cf585fc5969b1c982fa34a8aea77b8792baa7",
+		"content/typst/lib.typ": "486d06b2d804aac5d50cc83ca2e43582d92cc63e68dbe34a36d249c58e15c2a1",
+		"content/typst/paged.typ": "3e8a6604154f7df83ea272bfc67b31d74fd6715b8ad54ecbdbf7f32eb09c7976",
+		"content/typst/theme.tmTheme": "b51d2ad6d39f64349ed69f1d7141b06b81f3e0d492ec7bf41a91404f3cf9bafd",
+		"content/typst/web.typ": "699e81e93c8b150404c5b11156a8f72896c190f77a9d9a406630c0001b0a6054"
+	},
+	"entries": [
+		{
+			"meta": {
+				"title": "Curriculum Vitae",
+				"name": "Hout Manut",
+				"email": "huotmanut00@gmail.com",
+				"updated": "2026-08-17",
+				"placeholder": false
+			},
+			"html": "<h2 id=\"experience\">Experience</h2><p><span class=\"spread\"><span><strong>Full-Stack Developer</strong> — Council for the Development of Cambodia (CDC)</span><span class=\"spread-end\">Jul 2026–present</span></span><br>Continued on full-time after the second internship, working on internal platforms for the Council.</p><p><span class=\"spread\"><span><strong>Full-Stack Developer Intern</strong> — CDC</span><span class=\"spread-end\">Jan 2026–Jul 2026</span></span><br>Built on <strong>cdcIRM</strong>, a mail-aggregation and CRM platform with deep integration across internal systems.</p><p><span class=\"spread\"><span><strong>Mobile Developer Intern</strong> — CDC</span><span class=\"spread-end\">Apr 2025–Jun 2025</span></span><br>Built the mobile app for <strong>cdcNews</strong>, a news-aggregation platform, for browsing and downloading daily news reports.</p><h2 id=\"selected-projects\">Selected projects</h2><p>Most of my CDC project work can’t be detailed publicly. See the <a href=\"/\">work index</a> for public projects with live links.</p><ul><li><strong>Mata-Bot</strong> — Discord bot for designing, visualising, testing, converting, and minimising finite automata.</li><li><strong>cdcIRM</strong> — internal mail-aggregation and CRM platform.</li><li><strong>cdcNews</strong> — mobile app for a news-aggregation platform.</li></ul><h2 id=\"education\">Education</h2><p><span class=\"spread\"><span><strong>BSc Computer Science</strong> — Cambodia Academy of Digital Technology (CADT)</span><span class=\"spread-end\">Expected 2027</span></span></p><h2 id=\"technical\">Technical</h2><p>Languages: TypeScript, Python, Dart<br>Infrastructure: Postgres, Docker, CI<br>Also: Svelte, Node, SQLite, Flutter</p>",
+			"headings": [
+				{
+					"id": "experience",
+					"text": "Experience"
+				},
+				{
+					"id": "selected-projects",
+					"text": "Selected projects"
+				},
+				{
+					"id": "education",
+					"text": "Education"
+				},
+				{
+					"id": "technical",
+					"text": "Technical"
+				}
+			],
+			"locale": "en"
+		}
+	]
+}

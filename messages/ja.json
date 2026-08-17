@@ -1,0 +1,63 @@
+{
+	"$schema": "https://inlang.com/schema/inlang-message-format",
+
+	"navWork": "作品",
+	"navWriting": "文章",
+	"navCv": "履歴書",
+	"navPrimaryAria": "メインナビゲーション",
+	"skipToContent": "コンテンツへスキップ",
+	"contactLegend": "連絡先",
+	"proofMark": "ゲラ刷り",
+	"proofBodyPre": "",
+	"proofBodyPost": " に差し替えリストがあります。",
+	"colophonSetPre": "可変フォント ",
+	"colophonSetMid": " 一書体で、見出し・本文・凡例・コードのすべてを組んでいます。",
+	"colophonSetPost": " のソースから、このページと PDF の両方を組版しています。",
+	"siteRole": "ソフトウェアエンジニア",
+	"siteTagline": "ソフトウェアエンジニア。作品は下にあります。",
+	"localeSwitcherAria": "言語",
+
+	"pageTitleWork": "{name} — {role}",
+	"workHeading": "主な作品",
+	"workCountOne": "{n}件",
+	"workCountOther": "{n}件",
+
+	"writingMetaTitle": "文章 — {name}",
+	"writingMetaDescription": "{name} によるエッセイとノート。",
+	"writingHeading": "文章",
+	"writingCountOne": "{n}本",
+	"writingCountOther": "{n}本",
+	"writingEmpty": "まだ何も公開されていません。",
+
+	"postMetaTitle": "{title} — {name}",
+	"marginaliaPublished": "公開日",
+	"marginaliaTags": "タグ",
+	"writingAllWriting": "すべての文章",
+
+	"cvMetaTitle": "履歴書 — {name}",
+	"cvMetaDescription": "{name} の履歴書。",
+	"cvUpdated": "更新日",
+	"cvSourceNotePre": "",
+	"cvSourceNotePost": " という一つのソースから、このページと PDF の両方を生成しています。",
+	"cvDownloadPdf": "PDFをダウンロード（英語）",
+
+	"source": "ソース",
+	"projectFigPending": "図版準備中",
+	"projectFig": "図 {n}",
+	"projectStatus": "状態",
+	"projectYear": "年",
+	"projectStack": "使用技術",
+	"projectLiveSite": "公開サイト",
+	"projectSeedBadge": "仮",
+
+	"marginaliaSectionsAria": "セクション",
+
+	"axisSpecimenAria": "標本の軸",
+	"axisAxis": "軸",
+	"axisAxesToggle": "軸パネル",
+	"axisDetail": "詳細",
+	"axisMono": "モノ",
+	"axisCasual": "カジュアル",
+	"axisDetailAria": "詳細 — 各プロジェクトの表示量",
+	"axisRowAria": "{label} — {tag} 軸"
+}

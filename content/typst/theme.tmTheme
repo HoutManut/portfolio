@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Sentinel syntax theme.
+
+  These colours are never seen. Typst's HTML export hardcodes token colours as
+  inline `style="color: #hex"`, which cannot follow a light/dark theme. So we
+  colour each token class with a unique sentinel hex here, and
+  scripts/build-content.ts rewrites `style="color: #f0000N"` into
+  `class="tok-*"` so highlighting rides CSS variables instead.
+
+  If you add a scope here, add its sentinel to TOKEN_COLORS in
+  scripts/build-content.ts. The build fails on an unmapped sentinel.
+
+  For the PDF target these same sentinels WOULD be visible, so paged.typ
+  overrides the raw theme back to Typst's default.
+-->
+<plist version="1.0">
+	<dict>
+		<key>name</key>
+		<string>Sentinel</string>
+		<key>settings</key>
+		<array>
+			<dict>
+				<key>settings</key>
+				<dict>
+					<!-- Default foreground emits no span at all; plain code inherits the CSS colour. -->
+					<key>background</key>
+					<string>#FFFFFF</string>
+					<key>foreground</key>
+					<string>#101010</string>
+				</dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>keyword, keyword.control, keyword.other, storage.modifier</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00001</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>storage, storage.type, support.type, support.class, entity.name.type, entity.name.class, entity.name.namespace</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00002</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>entity.name.function, support.function, meta.function-call, variable.function</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00003</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>string, string.quoted, string.unquoted, string.regexp, constant.character.escape</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00004</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>comment, punctuation.definition.comment</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00005</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>constant, constant.numeric, constant.language, support.constant</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00006</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>variable, variable.parameter, variable.other, meta.definition.variable</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00007</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>punctuation, keyword.operator, punctuation.separator, punctuation.terminator</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00008</string></dict>
+			</dict>
+
+			<dict>
+				<key>scope</key>
+				<string>entity.name.tag, entity.other.attribute-name, meta.tag</string>
+				<key>settings</key>
+				<dict><key>foreground</key><string>#F00009</string></dict>
+			</dict>
+		</array>
+	</dict>
+</plist>
