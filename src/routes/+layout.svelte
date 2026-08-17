@@ -60,7 +60,8 @@
 	 * content width wobbles for the length of the run — dragging the locale
 	 * switcher out from under a cursor that just clicked it.
 	 *
-	 * Both `.view-links` and `.locales` get pinned on click by their trailing
+	 * On cursor-capable devices, both `.view-links` and `.locales` get pinned on
+	 * click by their trailing
 	 * (right) edge alone — `position: fixed; right: …`, no `left` and no
 	 * `width` — so each stays a shrink-to-fit box free to grow or shrink from
 	 * its *left* edge as its content decodes, without ever moving the edge
@@ -83,16 +84,20 @@
 	 * cutting the freeze short mid-run, and coming back before then cancels it.
 	 * There is no ceiling, because the run's actual length varies with the
 	 * label and only the pointer leaving is a real signal that the hold is no
-	 * longer needed. Eased back to the flow position with a FLIP so neither
+	 * longer needed. Devices without a fine, hover-capable pointer never lock.
+	 * Scrolling releases the lock immediately on every device. Eased back to the
+	 * flow position with a FLIP so neither
 	 * box snaps.
 	 */
 	const MIN_LOCK_MS = 1100;
+	const CURSOR_QUERY = '(hover: hover) and (pointer: fine)';
 
 	let viewLinksEl: HTMLElement | undefined = $state();
 	let localesEl: HTMLElement | undefined = $state();
 	let navLocked = false;
 	let lockedAt = 0;
 	let pendingRelease: ReturnType<typeof setTimeout> | undefined;
+	let cursorQuery: MediaQueryList | undefined;
 
 	function pin(el: HTMLElement, rect: DOMRect) {
 		el.style.transition = 'none';
@@ -136,7 +141,7 @@
 	}
 
 	function lockNav() {
-		if (!viewLinksEl || !localesEl) return;
+		if (!viewLinksEl || !localesEl || !hasCursor()) return;
 		clearTimeout(pendingRelease);
 		pendingRelease = undefined;
 		if (navLocked) return;
@@ -152,6 +157,7 @@
 	}
 
 	function releaseNav() {
+		clearTimeout(pendingRelease);
 		pendingRelease = undefined;
 		if (!navLocked || !viewLinksEl || !localesEl) return;
 		navLocked = false;
@@ -181,13 +187,36 @@
 		}
 	}
 
+	function hasCursor() {
+		if (typeof window === 'undefined') return false;
+		return (cursorQuery ?? window.matchMedia(CURSOR_QUERY)).matches;
+	}
+
 	/** The pointer came back before a scheduled release fired: stay pinned. */
 	function cancelPendingRelease() {
 		clearTimeout(pendingRelease);
 		pendingRelease = undefined;
 	}
 
-	onMount(watchMotionPreference);
+	onMount(() => {
+		watchMotionPreference();
+
+		cursorQuery = window.matchMedia(CURSOR_QUERY);
+		const releaseWithoutCursor = () => {
+			if (!cursorQuery?.matches) releaseNav();
+		};
+		const releaseOnScroll = () => releaseNav();
+
+		cursorQuery.addEventListener('change', releaseWithoutCursor);
+		window.addEventListener('scroll', releaseOnScroll, { passive: true });
+
+		return () => {
+			cursorQuery?.removeEventListener('change', releaseWithoutCursor);
+			window.removeEventListener('scroll', releaseOnScroll);
+			clearTimeout(pendingRelease);
+			pendingRelease = undefined;
+		};
+	});
 </script>
 
 <svelte:head>
@@ -581,6 +610,17 @@
 			gap: var(--space-4);
 			justify-content: start;
 			padding-top: 0;
+			width: 100%;
+		}
+
+		.view-links,
+		.locales {
+			flex: 0 0 auto;
+			white-space: nowrap;
+		}
+
+		.locales {
+			margin-left: auto;
 		}
 
 		.close {

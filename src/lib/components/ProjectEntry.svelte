@@ -76,15 +76,17 @@
 </script>
 
 {#snippet stackList(items: { name: string; url?: string }[])}
-	{#each items as item, i (item.name)}
-		{#if i > 0}<span aria-hidden="true">{' · '}</span>{/if}
-		{#if item.url}
-			<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- absolute off-site URL from frontmatter -->
-			<a href={item.url} class="stack-link">{item.name}</a>
-		{:else}
-			{item.name}
-		{/if}
-	{/each}
+	<span class="stack-list">
+		{#each items as item, i (item.name)}
+			{#if i > 0}<span aria-hidden="true">{' · '}</span>{/if}
+			{#if item.url}
+				<!-- eslint-disable-next-line svelte/no-navigation-without-resolve -- absolute off-site URL from frontmatter -->
+				<a href={item.url} class="stack-link">{item.name}</a>
+			{:else}
+				{item.name}
+			{/if}
+		{/each}
+	</span>
 {/snippet}
 
 <details class="entry" {open} ontoggle={onToggle}>
@@ -398,10 +400,19 @@
 		display: flex;
 		font-size: var(--text-sm);
 		gap: var(--space-2);
+		min-width: 0;
 	}
 
 	.fact .legend {
 		display: inline;
+		flex: 0 0 auto;
+		white-space: nowrap;
+	}
+
+	.stack-list {
+		flex: 1 1 auto;
+		min-width: 0;
+		overflow-wrap: anywhere;
 	}
 
 	/* Stack entries with a source link get an underline; plain names don't. */
@@ -552,6 +563,13 @@
 
 		.title {
 			font-size: calc(clamp(1.5rem, 7vw, 2.25rem) * (0.85 + var(--d) * 0.2));
+		}
+
+		/* Wrapped descriptions and stack values must grow naturally on narrow screens. */
+		.line,
+		.facts {
+			max-height: none;
+			overflow: visible;
 		}
 
 		.cell.pending .legend {
