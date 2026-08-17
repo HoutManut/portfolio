@@ -22,3 +22,4 @@ bun.lockb
 # Vendored Canvas UI source — kept byte-identical to upstream apart from the
 # patches marked LOCAL PATCH, so a re-download diffs cleanly
 /src/lib/components/canvasui/
+/content/
