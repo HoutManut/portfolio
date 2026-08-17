@@ -65,6 +65,17 @@
 
 	const screen = $derived(screenFor(meta.slug));
 
+	/*
+	 * Full-strength screen for the pending hatch, since it has to read as a mark
+	 * on its own. Once a real figure lands the same values stacked on actual
+	 * image detail read as too strong, so the plate gets a lighter pass.
+	 */
+	const dither = $derived(
+		figure
+			? { strength: 0.7, baseStrength: 0.04, contrast: 0.75 }
+			: { strength: 0.8, baseStrength: 0.4, contrast: 0.9 }
+	);
+
 	onMount(() => {
 		watchMotionPreference();
 		mounted = true;
@@ -110,9 +121,9 @@
 						radius={0.5}
 						softness={1}
 						followSpeed={2.4}
-						strength={0.8}
-						baseStrength={0.4}
-						contrast={0.9}
+						strength={dither.strength}
+						baseStrength={dither.baseStrength}
+						contrast={dither.contrast}
 						colorize={0.05}
 						darkColor={FIELD}
 						lightColor={PAPER}

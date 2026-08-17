@@ -98,27 +98,6 @@ static/fonts/     the Recursive variable subsets the design runs on
 Projects expand in place on the index rather than getting their own routes; the
 open one is tracked in the URL hash so a single project can still be linked.
 
-## Replacement list
-
-Everything below is seed content. While any of it remains, the site shows a
-banner saying so (`hasPlaceholders` in `src/lib/content/index.ts`).
-
-- [ ] `content/projects/graphify.typ` — real body, real `live` / `repo` URLs
-- [ ] `content/projects/second-project.typ` — replace entirely
-- [ ] `content/projects/third-project.typ` — replace entirely
-- [ ] `content/writing/authoring-in-typst.typ` — rewrite in your own voice or delete
-- [ ] `content/writing/draft-example.typ` — fixture proving drafts are excluded; delete when done with it
-- [ ] `content/cv.typ` — **every role, date, and school is invented structure**
-- [ ] `src/lib/site.ts` — tagline and profile URLs
-- [ ] `static/robots.txt`, favicon
-- [ ] `src/lib/figures/` — one screenshot per project, named for the slug
-      (`graphify.png`). Until a file exists the project's specimen cell renders
-      its `FIG. PENDING` state. No schema change and no content rebuild needed —
-      drop the file in and it appears.
-
-No employer names, metrics, testimonials, or client logos were invented — those
-blanks are left empty on purpose and must be filled with real material.
-
 ## The design
 
 `src/app.css` is the visual world, not a placeholder. It is documented in
