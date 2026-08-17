@@ -11,7 +11,7 @@ export const site = {
 	name: 'Hout Manut',
 	email: 'huotmanut00@gmail.com',
 	links: [
-		{ label: 'GitHub', href: 'https://github.com/' },
-		{ label: 'LinkedIn', href: 'https://www.linkedin.com/' }
+		{ label: 'GitHub', href: 'https://github.com/HoutManut' },
+		{ label: 'LinkedIn', href: 'https://www.linkedin.com/in/manut-hout-a2b800271/' }
 	]
 } as const;
