@@ -4,6 +4,7 @@
 	import { page } from '$app/state';
 	import { resolve } from '$app/paths';
 	import favicon from '$lib/assets/favicon.svg';
+	import recursiveLatinFull from '$lib/assets/fonts/recursive-latin-full.woff2';
 	import AxisRail from '$lib/components/AxisRail.svelte';
 	import CropMarks from '$lib/components/CropMarks.svelte';
 	import Ground from '$lib/components/Ground.svelte';
@@ -193,7 +194,7 @@
 	<link rel="icon" href={favicon} />
 	<link
 		rel="preload"
-		href="/fonts/recursive-latin-full.woff2"
+		href={recursiveLatinFull}
 		as="font"
 		type="font/woff2"
 		crossorigin="anonymous"

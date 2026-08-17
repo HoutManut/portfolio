@@ -34,6 +34,7 @@
 	 * here is the ground.
 	 */
 	import { onMount } from 'svelte';
+	import { base } from '$app/paths';
 	import Canvas from '$lib/components/canvasui/Canvas.svelte';
 	import { motion, watchMotionPreference } from '$lib/motion.svelte';
 
@@ -42,6 +43,14 @@
 		class: className = '',
 		fx = true
 	}: { html: string; class?: string; fx?: boolean } = $props();
+
+	/**
+	 * Typst content is compiled once, offline, with no notion of a deploy base
+	 * path — `#link("/")` always emits a site-root-relative `href="/"`. Rewrite
+	 * those at render time rather than re-authoring content per deploy target.
+	 * `(?!\/)` skips protocol-relative `href="//…"` external links.
+	 */
+	const content = $derived(base ? html.replaceAll(/href="\/(?!\/)/g, `href="${base}/`) : html);
 
 	let mounted = $state(false);
 	const enabled = $derived(fx && mounted && !motion.reduced);
@@ -78,7 +87,7 @@
 	<div class="plate">
 		<div class="prose {className}">
 			<!-- eslint-disable-next-line svelte/no-at-html-tags -- build-time content, see above -->
-			{@html html}
+			{@html content}
 		</div>
 	</div>
 {/snippet}
