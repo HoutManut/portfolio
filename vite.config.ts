@@ -19,10 +19,12 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter()
+			adapter: adapter(),
+			// Set by the GitHub Pages workflow to the repo name, since project
+			// pages are served from <user>.github.io/<repo>/ rather than root.
+			paths: {
+				base: (process.env.BASE_PATH as `/${string}` | undefined) ?? ''
+			}
 		})
-	],
-    server: {
-        allowedHosts: ['flat-technique-cloth-advised.trycloudflare.com'],
-    }
+	]
 });
