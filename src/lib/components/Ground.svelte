@@ -57,36 +57,36 @@
 	 * come back exactly field-coloured — invisible, which is what a plain source
 	 * rendered before.
 	 *
-	 * A fixed darken ratio isn't enough: the shader almost always sits in the
-	 * clamp (delta < 0.2), so the glyph colour comes out to field * (5 - 4k) for
-	 * backing = field * k — a straight multiple of the field. Palette C's field
-	 * is both darker overall AND has its energy spread across G and B rather than
-	 * concentrated in one channel the way the ultramarine original is, so the
-	 * same k that reads as a periwinkle tint on #1c22c8 clips two channels to
-	 * white on #08495e and comes back a bright cyan flash instead.
+	 * uBackingLum is read straight off the plate's own computed background (see
+	 * Asciify's syncBacking), which is --field itself — so the delta is always
+	 * ~0 and always hits the 0.2 floor. That makes the amplification a constant
+	 * 5x regardless of what's picked here, and the resulting glyph colour a flat
+	 * multiple of the field: backing = field * k -> glyph = field * (5 - 4k).
 	 *
-	 * So k is solved per palette to land the *output luminance* at the same
-	 * target every time — 0.716, what k=0.357 against the original field
-	 * produces — rather than at a fixed ratio of the input. Near-black fields
-	 * (E/F) can't reach that target within the 5x ceiling the clamp imposes and
-	 * just amplify at the max instead, which is the dim-but-fine look already in
-	 * place for them.
+	 * 0.357 (multiplier 3.572) is that k for the original ultramarine field —
+	 * tuned so its one saturated channel (B) blows out to white while the other
+	 * two stay well under 1, which is what reads as a tinted glyph rather than a
+	 * flat wash. The same multiplier applied to Palette C's field blows out BOTH
+	 * G and B (its energy sits across two channels, not one), which is the
+	 * "too bright" — two clipped channels reads as a white/cyan flood instead of
+	 * a colour. So the multiplier is capped per field at whatever keeps the
+	 * *second*-highest channel just under 1, letting only the peak channel clip
+	 * — same character as the original, whichever hue is doing it. Original/E/F
+	 * never hit that cap (their second-highest channel is already low), so their
+	 * output is unchanged.
 	 */
-	const TARGET_OUTPUT_LUM = 0.716;
+	const BASE_MULTIPLIER = 3.572;
 
 	function hexToRgb01(hex: string): [number, number, number] {
 		const n = parseInt(hex.slice(1), 16);
 		return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 	}
 
-	function luminance([r, g, b]: [number, number, number]): number {
-		return 0.299 * r + 0.587 * g + 0.114 * b;
-	}
-
 	function backingFor(fieldHex: string): [number, number, number] {
 		const field = hexToRgb01(fieldHex);
-		const fieldLum = Math.max(luminance(field), 0.0001);
-		const multiplier = Math.min(5, Math.max(1, TARGET_OUTPUT_LUM / fieldLum));
+		const secondHighest = [...field].sort((a, b) => b - a)[1];
+		const ceiling = secondHighest > 0 ? 0.96 / secondHighest : Infinity;
+		const multiplier = Math.min(BASE_MULTIPLIER, ceiling);
 		const k = (5 - multiplier) / 4;
 		return field.map((c) => c * k) as [number, number, number];
 	}
