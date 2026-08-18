@@ -55,26 +55,43 @@
 	 * it. Glyph colour is uBg + (pixel - uBg) / max(|lumDelta|, 0.2). Against a
 	 * field-coloured backing the field would have zero delta and every glyph would
 	 * come back exactly field-coloured — invisible, which is what a plain source
-	 * rendered before. Scaling --field itself down (rather than a fixed hex) keeps
-	 * the delta — and so the amplification — in the same ratio across every
-	 * palette; a constant tuned for one field's hue reads too bright or too dim
-	 * once ThemeSelector swaps in another. 0.357 is the ratio the original
-	 * ultramarine backing (#0a0c48 against field #1c22c8) was tuned at.
+	 * rendered before.
+	 *
+	 * A fixed darken ratio isn't enough: the shader almost always sits in the
+	 * clamp (delta < 0.2), so the glyph colour comes out to field * (5 - 4k) for
+	 * backing = field * k — a straight multiple of the field. Palette C's field
+	 * is both darker overall AND has its energy spread across G and B rather than
+	 * concentrated in one channel the way the ultramarine original is, so the
+	 * same k that reads as a periwinkle tint on #1c22c8 clips two channels to
+	 * white on #08495e and comes back a bright cyan flash instead.
+	 *
+	 * So k is solved per palette to land the *output luminance* at the same
+	 * target every time — 0.716, what k=0.357 against the original field
+	 * produces — rather than at a fixed ratio of the input. Near-black fields
+	 * (E/F) can't reach that target within the 5x ceiling the clamp imposes and
+	 * just amplify at the max instead, which is the dim-but-fine look already in
+	 * place for them.
 	 */
-	const BACKING_SCALE = 0.357;
+	const TARGET_OUTPUT_LUM = 0.716;
 
 	function hexToRgb01(hex: string): [number, number, number] {
 		const n = parseInt(hex.slice(1), 16);
 		return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
 	}
 
-	const BACKING = $derived(
-		hexToRgb01(paletteOf(theme.id).field).map((c) => c * BACKING_SCALE) as [
-			number,
-			number,
-			number
-		]
-	);
+	function luminance([r, g, b]: [number, number, number]): number {
+		return 0.299 * r + 0.587 * g + 0.114 * b;
+	}
+
+	function backingFor(fieldHex: string): [number, number, number] {
+		const field = hexToRgb01(fieldHex);
+		const fieldLum = Math.max(luminance(field), 0.0001);
+		const multiplier = Math.min(5, Math.max(1, TARGET_OUTPUT_LUM / fieldLum));
+		const k = (5 - multiplier) / 4;
+		return field.map((c) => c * k) as [number, number, number];
+	}
+
+	const BACKING = $derived(backingFor(paletteOf(theme.id).field));
 </script>
 
 {#if enabled}
