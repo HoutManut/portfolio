@@ -32,6 +32,7 @@
 	import Asciify from '$lib/components/canvasui/Asciify.svelte';
 	import { axes } from '$lib/axes.svelte';
 	import { motion, watchMotionPreference } from '$lib/motion.svelte';
+	import { theme, paletteOf } from '$lib/theme.svelte';
 
 	let mounted = $state(false);
 	const enabled = $derived(mounted && !motion.reduced);
@@ -54,12 +55,26 @@
 	 * it. Glyph colour is uBg + (pixel - uBg) / max(|lumDelta|, 0.2). Against a
 	 * field-coloured backing the field would have zero delta and every glyph would
 	 * come back exactly field-coloured — invisible, which is what a plain source
-	 * rendered before. This dark blue puts the delta under the 0.2 clamp, so it is
-	 * amplified about 5x and the glyphs land on a light periwinkle: lighter blue
-	 * drawn out of the blue that is already there. It is never painted —
-	 * backgroundOpacity 0 gives alpha to glyph pixels only.
+	 * rendered before. Scaling --field itself down (rather than a fixed hex) keeps
+	 * the delta — and so the amplification — in the same ratio across every
+	 * palette; a constant tuned for one field's hue reads too bright or too dim
+	 * once ThemeSelector swaps in another. 0.357 is the ratio the original
+	 * ultramarine backing (#0a0c48 against field #1c22c8) was tuned at.
 	 */
-	const BACKING: [number, number, number] = [10 / 255, 12 / 255, 72 / 255];
+	const BACKING_SCALE = 0.357;
+
+	function hexToRgb01(hex: string): [number, number, number] {
+		const n = parseInt(hex.slice(1), 16);
+		return [((n >> 16) & 255) / 255, ((n >> 8) & 255) / 255, (n & 255) / 255];
+	}
+
+	const BACKING = $derived(
+		hexToRgb01(paletteOf(theme.id).field).map((c) => c * BACKING_SCALE) as [
+			number,
+			number,
+			number
+		]
+	);
 </script>
 
 {#if enabled}
