@@ -9,6 +9,59 @@
 		<script>
 			document.documentElement.classList.add('js');
 		</script>
+		<script>
+			(function () {
+				var palettes = {
+					c: {
+						field: '#08495e',
+						paper: '#f1efe6',
+						acid: '#ff974d',
+						ink: '#100e0c',
+						muted: '#94c2d1',
+						rule: '#29758e',
+						ruleStrong: '#2e95b8'
+					},
+					original: {
+						field: '#1c22c8',
+						paper: '#f1efe6',
+						acid: '#d6f03a',
+						ink: '#12131a',
+						muted: '#a6acee',
+						rule: '#5a5fd8',
+						ruleStrong: '#7b80e4'
+					},
+					e: {
+						field: '#0f0f0f',
+						paper: '#f1efe6',
+						acid: '#f87cba',
+						ink: '#130a10',
+						muted: '#9f7d8e',
+						rule: '#4c3e45',
+						ruleStrong: '#6d5561'
+					},
+					f: {
+						field: '#0c0f12',
+						paper: '#f1efe6',
+						acid: '#00b3cf',
+						ink: '#080c0e',
+						muted: '#698f96',
+						rule: '#364245',
+						ruleStrong: '#4b5f63'
+					}
+				};
+				var id = localStorage.getItem('theme');
+				var palette = palettes[id];
+				if (!palette) return;
+				var root = document.documentElement.style;
+				root.setProperty('--field', palette.field);
+				root.setProperty('--paper', palette.paper);
+				root.setProperty('--acid', palette.acid);
+				root.setProperty('--ink', palette.ink);
+				root.setProperty('--muted', palette.muted);
+				root.setProperty('--rule', palette.rule);
+				root.setProperty('--rule-strong', palette.ruleStrong);
+			})();
+		</script>
 		%sveltekit.head%
 	</head>
 	<body data-sveltekit-preload-data="hover">

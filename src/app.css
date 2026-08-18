@@ -109,6 +109,48 @@
 	initial-value: 0;
 }
 
+@property --field {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #08495e;
+}
+
+@property --paper {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #f1efe6;
+}
+
+@property --acid {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #ff974d;
+}
+
+@property --ink {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #100e0c;
+}
+
+@property --muted {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #94c2d1;
+}
+
+@property --rule {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #29758e;
+}
+
+@property --rule-strong {
+	syntax: '<color>';
+	inherits: true;
+	initial-value: #2e95b8;
+}
+
 :root {
 	color-scheme: dark;
 
@@ -120,15 +162,6 @@
 	 * before, which is the only fallback this needs.
 	 */
 	interpolate-size: allow-keywords;
-
-	/* The drench. A specimen sheet printed on one saturated field. */
-	--field: #1c22c8;
-	--paper: #f1efe6;
-	--acid: #d6f03a;
-	--ink: #12131a;
-	--muted: #a6acee;
-	--rule: #5a5fd8;
-	--rule-strong: #7b80e4;
 
 	/* Syntax, tuned for the paper plate — code never sits on the field. */
 	--tok-keyword: #7a1fa2;
@@ -251,6 +284,19 @@ html.tween {
 		--detail 420ms var(--ease),
 		--mono 420ms var(--ease),
 		--casl 420ms var(--ease);
+}
+
+/* Same idea, for the ThemeSelector: fades the drench across a palette swap
+   instead of snapping — see the @property block above. */
+html.theme-tween {
+	transition:
+		--field 320ms var(--ease),
+		--paper 320ms var(--ease),
+		--acid 320ms var(--ease),
+		--ink 320ms var(--ease),
+		--muted 320ms var(--ease),
+		--rule 320ms var(--ease),
+		--rule-strong 320ms var(--ease);
 }
 
 /* The rail is a JavaScript control; without it the document keeps its default instance. */

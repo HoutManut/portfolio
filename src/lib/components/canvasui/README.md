@@ -8,13 +8,14 @@ none to add: the registry lists `"dependencies": []` for all of them.
 | --- | --- | --- |
 | `Asciify.svelte` | `asciify-svelte` | `https://canvasui.dev/r/asciify-svelte.json` |
 | `Canvas.svelte` | `canvas-svelte` | `https://canvasui.dev/r/canvas-svelte.json` |
+| `Cloth.svelte` | `cloth-svelte` | `https://canvasui.dev/r/cloth-svelte.json` |
 | `RetroDither.svelte` | `retro-dither-svelte` | `https://canvasui.dev/r/retro-dither-svelte.json` |
 
 The shadcn CLI path (`npx shadcn@latest add @canvas-ui/…`) does not apply to this project — it
 has no `components.json` and no Tailwind. Re-download by fetching the registry JSON above and
 writing out `files[0].content`.
 
-All three are kept **byte-identical to upstream** apart from the changes below, each marked
+All four are kept **byte-identical to upstream** apart from the changes below, each marked
 `LOCAL PATCH` in the source, so a re-download diffs cleanly. They are excluded from
 `prettier --check` and from eslint (see `.prettierignore` and `eslint.config.js`); formatting
 vendored source would bury those patches in noise.
@@ -86,6 +87,21 @@ wider on a long one — reported directly by the person using the site.
 recomputed from the same `ResizeObserver` measurement the `fit="flow"` patch already takes. The
 brush is then a constant physical size regardless of how long the prose under it happens to be.
 `radius` still applies for the instant before the first measurement lands.
+
+### `Cloth.svelte` — `fit: "fill" | "flow"`
+
+Same patch as `Canvas.svelte`'s, ported verbatim for the same reason: `Prose.svelte`'s `.plate`
+is an intrinsically-sized Typst body, not an explicitly-sized box, and upstream's `"fill"`
+contract (content stretched to a wrapper with `height: 100%`) collapses to zero on the
+html-in-canvas path. `"flow"` measures the content with a `ResizeObserver` and feeds
+`scrollHeight` back to the wrapper as `min-height`.
+
+Unlike `Canvas.svelte`, this needed no accompanying `radiusPx`-style override: every Cloth size
+option (`amplitude`, `drape`, `brushSize`, `cornerRadius`, `perspective`) is already a constant
+CSS-pixel value, never a fraction of the source's own height, so there is nothing for `"flow"` to
+throw off. The zero-height collapse was the only failure mode — fixing it also fixes
+`touchImprint`'s brush-radius-to-grid conversion, which divides by `cellH = height / SEG` and
+would otherwise degenerate along with the fabric.
 
 ### `RetroDither.svelte` — wrapper elements are spans
 

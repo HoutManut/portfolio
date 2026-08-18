@@ -59,5 +59,9 @@
 	"axisMono": "Mono",
 	"axisCasual": "Casual",
 	"axisDetailAria": "Detail — how much of each project is shown",
-	"axisRowAria": "{label} — {tag} axis"
+	"axisRowAria": "{label} — {tag} axis",
+
+	"themeLegend": "Palette",
+	"themeSelectorAria": "Colour palette",
+	"themeOptionAria": "{label} palette"
 }

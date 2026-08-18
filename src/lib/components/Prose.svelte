@@ -10,7 +10,7 @@
 	 * heading order is correct without post-processing.
 	 *
 	 * This is the only {@html} site in the repo — cv, writing posts and project
-	 * entries all render through it — so the Canvas pass applied here is the pass
+	 * entries all render through it — so the Cloth pass applied here is the pass
 	 * applied to every Typst-compiled element on the site.
 	 *
 	 * The plate is set here rather than by the routes. The pass has to run over
@@ -19,10 +19,10 @@
 	 * one arrangement that reads as a mistake. The routes hand over a body; this
 	 * decides what page it is set on.
 	 *
-	 * Gated like Ground: Canvas's own reduced-motion handling only skips the intro
-	 * and pins the brush to the cursor, it does not stop the rAF loop, so a true
-	 * stop has to happen at the mount. Without JavaScript, or under
-	 * `prefers-reduced-motion: reduce`, the same markup renders unwrapped.
+	 * Gated like Ground: without JavaScript, or under `prefers-reduced-motion:
+	 * reduce`, the same markup renders unwrapped instead of paying for a live
+	 * WebGL context and full-height backing store to draw a fabric that never
+	 * moves.
 	 *
 	 * `fx` is the second gate, for callers that keep a body in the DOM while it is
 	 * not on show. A closed <details> does not stop the pass on its own: the
@@ -35,7 +35,7 @@
 	 */
 	import { onMount } from 'svelte';
 	import { base } from '$app/paths';
-	import Canvas from '$lib/components/canvasui/Canvas.svelte';
+	import Cloth from '$lib/components/canvasui/Cloth.svelte';
 	import { motion, watchMotionPreference } from '$lib/motion.svelte';
 
 	let {
@@ -61,26 +61,16 @@
 	});
 
 	/*
-	 * The paper the pass warms towards, matching --paper so the plate keeps its
-	 * own colour instead of being washed to a grey slab. tintStrength is what
-	 * decides how far the painting is pulled off the page underneath it; the
-	 * playground's 0.9 over a cream plate flattens the whole measure. Held low,
-	 * with the weave and the screen down to a tooth rather than a pattern, what
-	 * lands is paper that takes the brush — not a filter over the reading.
+	 * backing="auto" samples the computed background-colour up the ancestor
+	 * chain from the content, which resolves to --paper via .plate — the fabric
+	 * stays the plate's own colour instead of a colour restated here that would
+	 * drift from --paper under a palette change.
+	 *
+	 * Every other size here (amplitude, drape, brushSize, cornerRadius,
+	 * perspective) is a constant CSS-pixel value, not a fraction of the
+	 * content's own measured height — unlike Canvas's `radius`, so `fit="flow"`
+	 * needs no accompanying `radiusPx`-style override. See canvasui/README.md.
 	 */
-	const TINT: [number, number, number] = [241 / 255, 239 / 255, 230 / 255];
-
-	/*
-	 * Canvas's `radius` is a fraction of the content's own measured height, so
-	 * one fraction reads as wildly different brush sizes across bodies of very
-	 * different lengths — too small on a short project entry, right on a long
-	 * one like the Typst writeup. `radiusPx` (a canvasui/Canvas.svelte LOCAL
-	 * PATCH) fixes the brush to a constant CSS-pixel size instead, computed from
-	 * the actual measured height once it lands. ~260px is that longer body's
-	 * brush size at the previous 0.05 fraction — the size to keep everywhere.
-	 * `radius` still governs the instant before the first measurement.
-	 */
-	const RADIUS_PX = 260;
 </script>
 
 {#snippet plate()}
@@ -93,28 +83,26 @@
 {/snippet}
 
 {#if enabled}
-	<Canvas
+	<Cloth
 		class="prose-fx"
 		fit="flow"
-		threadSize={2}
-		threadWidth={0.15}
-		texture={0.75}
-		tintStrength={0.25}
-		grain={0.7}
-		halftone={0.08}
-		dotSize={3.5}
-		strength={0.25}
-		relief={0.15}
-		gloss={0.35}
-		bristle={0.25}
-		dry={3.9}
-		radius={0.05}
-		radiusPx={RADIUS_PX}
-		followSpeed={5}
-		tint={TINT}
+		wind={0.25}
+		speed={0.15}
+		amplitude={10}
+		drape={40}
+		brush={1}
+		brushSize={110}
+		damping={1.1}
+		light={0.9}
+		sheen={0.1}
+		shadow={0.3}
+		cornerRadius={0}
+		perspective={2000}
+		pin="top"
+		backing="auto"
 	>
 		{@render plate()}
-	</Canvas>
+	</Cloth>
 {:else}
 	{@render plate()}
 {/if}

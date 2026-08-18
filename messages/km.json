@@ -59,5 +59,9 @@
 	"axisMono": "ម៉ូណូ",
 	"axisCasual": "ធម្មតា",
 	"axisDetailAria": "លម្អិត — កម្រិតបង្ហាញនៃគម្រោងនីមួយៗ",
-	"axisRowAria": "{label} — អ័ក្ស {tag}"
+	"axisRowAria": "{label} — អ័ក្ស {tag}",
+
+	"themeLegend": "ក្ដារពណ៌",
+	"themeSelectorAria": "ក្ដារពណ៌",
+	"themeOptionAria": "ក្ដារពណ៌ {label}"
 }

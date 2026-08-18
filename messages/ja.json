@@ -59,5 +59,9 @@
 	"axisMono": "モノ",
 	"axisCasual": "カジュアル",
 	"axisDetailAria": "詳細 — 各プロジェクトの表示量",
-	"axisRowAria": "{label} — {tag} 軸"
+	"axisRowAria": "{label} — {tag} 軸",
+
+	"themeLegend": "パレット",
+	"themeSelectorAria": "配色パレット",
+	"themeOptionAria": "{label} パレット"
 }

@@ -71,13 +71,13 @@
 			{scale}
 			spacing={1}
 			backgroundOpacity={0}
-			contrast={1}
-			brightness={0.3}
+			contrast={0.5}
+			brightness={0.1}
 			invert={0}
 			glow={0.55}
 			aberration={0.75}
-			strength={1}
-			baseStrength={0.1}
+			strength={0.9}
+			baseStrength={0.05}
 			followSpeed={3}
 			charset="ascii"
 			background={BACKING}

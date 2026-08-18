@@ -9,6 +9,7 @@
 	import CropMarks from '$lib/components/CropMarks.svelte';
 	import Ground from '$lib/components/Ground.svelte';
 	import Scramble from '$lib/components/Scramble.svelte';
+	import ThemeSelector from '$lib/components/ThemeSelector.svelte';
 	import { hasPlaceholders } from '$lib/content';
 	import { localePath } from '$lib/i18n';
 	import { setLocale } from '$lib/locale.svelte';
@@ -325,6 +326,7 @@
 		</p>
 
 		<AxisRail />
+		<ThemeSelector />
 	</footer>
 </div>
 
